@@ -2,7 +2,7 @@ public class PhoneBook extends Utility{
 
 
     static Person[] listaPersoane = new Person[10];
-    static int index = 0;
+    static int index;
 
 
     public static void main(String[] arguments) {
@@ -62,7 +62,7 @@ public class PhoneBook extends Utility{
     //creare
     public static void creare(String nume, String telefon) {
         Person p = new Person(nume, telefon);
-        listaPersoane[index]=p;
+        listaPersoane[index] = p;
         index++;
     }
 
@@ -158,6 +158,8 @@ public class PhoneBook extends Utility{
             printConsole("Contactul " + nume + " a fost sters cu succes.\n");
         }
     }
+
+
 
 
 }
