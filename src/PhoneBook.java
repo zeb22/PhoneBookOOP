@@ -7,92 +7,81 @@ public class PhoneBook extends Utility{
 
     public static void main(String[] arguments) {
 
-        int opt = 0;
+        int opt;
         do {
             printConsole("Meniul principal:");
-            printConsole("\n1-Afisarea persoana" +
-                    "\n2-Adaugare persoana " +
-                    "\n3-Cautare nume" +
-                    "\n4-Modificare nume " +
-                    "\n5-Stergere nume" +
-                    "\n6-Adaugare fara duplicat" +
+            printConsole("\n1-Afisarea" +
+                    "\n2-Adaugare" +
+                    "\n3-Adaugare fara duplicat" +
+                    "\n4-Cautare contact " +
+                    "\n5-Modificare contact" +
+                    "\n6-Stergere" +
                     "\n0-EXIT");
-            printConsole("++++++++++++++++++++++");
+            printConsole("-----------------");
 
             opt = readIntConsole("Alegeti optiunea dorita:\n");
 
-
-            if (opt == 1)
-                listare();
-            else if (opt == 2) {
-                String nume = readStringConsole("Introduceti numele:");
-                String telefon = readStringConsole("Introduceti telefon: ");
-                creare(nume, telefon);
+            switch (opt) {
+                case 1:
+                    listare();
+                    break;
+                case 2:
+                    creare(readStringConsole("Introduceti numele: "),
+                            readStringConsole("Introduceti telefon: "));
+                    break;
+                case 3:
+                    creareFaraDuplicat(readStringConsole("Nume unic: "),
+                            readStringConsole("Telefon: "));
+                    break;
+                case 4:
+                    cautareAfisare(readStringConsole("Cauta dupa nume sau telefon: "));
+                    break;
+                case 5:
+                    modificare(readStringConsole("Cauta numele: "));
+                    break;
+                case 6:
+                    stergere(readStringConsole("Sterge numele: "));
+                    break;
             }
-            else if (opt == 3){
-                String valoare = readStringConsole("introduceti numele cautat: ");
-                cautareAfisare(valoare);
-            }
-            else if (opt ==4){
-                String nume = readStringConsole("Cauta dupa numele:");
-                modificare(nume);
-            }
-            else if (opt == 5){
-                String nume = readStringConsole("introduceti numele de sters:");
-                stergere(nume);
-            }
-            else if (opt == 6) {
-                String nume = readStringConsole("Nume unic: ");
-                String telefon = readStringConsole("Telefon: ");
-                creareFaraDuplicat(nume, telefon);
-            }
-
         } while (opt != 0);
     }
 
 
 
-    //AFISARE SIR DE NUME
+    //afisare
     public static void listare() {
         for (int i = 0; i < listaPersoane.length; i++) {
-            if (listaPersoane[i] != null) {  // => la inceput nu afiseaza nimic, pentru ca nu am introdus nume
-                printConsole(listaPersoane[i].getName());
-                printConsole(listaPersoane[i].getPhoneNumber());
+            if (listaPersoane[i] != null) {
+                printConsole("Contact: " + index + "\n" +
+                        "\tNume: " + listaPersoane[i].getName());
+                printConsole("\tTelefon: " + listaPersoane[i].getPhoneNumber() + "\n");
 
-                /*
-                sau mai poti face altfel (dar acelasi lucru)
-
-                Person p = listaPersoane[i];
-                printConsole(p.getName());
-                printConsole(p.getPhoneNumber());
-                */
             }
         }
-        System.out.println();
     }
 
-    //CREARE NUME NOU IN AGENDA
+    //creare
     public static void creare(String nume, String telefon) {
         Person p = new Person(nume, telefon);
         listaPersoane[index]=p;
         index++;
     }
 
-    //CREARE NUME NOU FARA DUPLICAT
+    //creare fara duplicat
     public static void creareFaraDuplicat(String nume, String telefon) {
-        int i = cautareAfisare(nume); //cautam daca mai exista
-        if (i == -1) {  //numele nu a fost gasit, deci adauga
+        int i = cautare(nume);
+        if (i == -1) {
             if (index < listaPersoane.length) {
                 creare(nume, telefon);
-            } else { // incercam sa gasim locuri libere in sir
+            } else {
                 for (int j = 0; j < listaPersoane.length; j++) {
-                    if (listaPersoane[j].getName() == null) { //a gasit primul loc liber, il scriem aici
+                    if (listaPersoane[j].getName() == null) {
                         creare(nume, telefon);
                         printConsole("Numele " + nume + " adaugat!\n"
                                 + "Cu telefon: " + telefon + "\n");
                         break;
                     } else {
-                        printConsole("Ne pare rau, dar PhoneBook este plina deja!");
+                        printConsole("Ne pare rau, dar agenda este plina deja!");
                         break;
                     }
                 }
@@ -103,65 +92,72 @@ public class PhoneBook extends Utility{
         }
     }
 
-    //CAUTARE NUME IN AGENDA
+    //cautare
     public static int cautare(String numePersoana) {
-        int r = -1;
-
-        for (int i = 0; i < listaPersoane.length; i++) {
-            if (listaPersoane[i] != null) {
-                if (numePersoana.equals(listaPersoane[i].getName())) { //pers de la pozitia i este:
-                    r = i;
-                    break;
-                }
-            }
-        }
-        if (r == -1) {
-            System.out.println("Numele " + numePersoana + " nu a fost gasit in PhoneBook!\n");
-        }
-        return r;
-    }
-
-    //CAUTARE NUME + AFISARE POZITIE
-    public static int cautareAfisare(String numePersoana) {
         int r = -1;
 
         for (int i = 0; i < listaPersoane.length; i++) {
             if (listaPersoane[i] != null) {
                 if (numePersoana.equals(listaPersoane[i].getName())) {
                     r = i;
-                    printConsole("Numele " + numePersoana + " a fost gasit pe pozitia " + r);
                     break;
                 }
             }
         }
         if (r == -1) {
-            System.out.println("Numele " + numePersoana + " nu a fost gasit in PhoneBook!\n");
+            printConsole("Numele " + numePersoana + " nu a fost gasit in agenda!\n");
         }
         return r;
     }
 
-    //MODIFICARE NUME IN AGENDA
+    //cautare + afisare
+    public static int cautareAfisare(String rezultat) {
+        int r = -1;
+
+        for (int i = 0; i < listaPersoane.length; i++) {
+            if (listaPersoane[i] != null) {
+                if (rezultat.equals(listaPersoane[i].getName())) {
+                    r = i + 1;
+                    printConsole("Numele " + rezultat + " a fost gasit pe pozitia " + r + "\n");
+                } else if (rezultat.equals(listaPersoane[i].getPhoneNumber())) {
+                    r = i + 1;
+                    printConsole("Contactul cu numarul: " + rezultat + " se afla pe pozitia " + r + "\n");
+                }
+            }
+        }
+        if (r == -1) {
+            printConsole("Contactul cu numele/telefon: " + rezultat + " nu a fost gasit in agenda!\n");
+        }
+        return r;
+    }
+
+    //modificare
     public static void modificare(String nume) {
-        int index = cautare(nume); //indexul numelui de modificat
+        int index = cautare(nume);
         if (index == -1) {
-            printConsole("Numele " + nume + " nu exista in PhoneBook!");
+            printConsole("Numele " + nume + " nu exista in angeda!");
         } else {
             String numeModif = readStringConsole("Introduceti numele dorit: ");
-            listaPersoane[index].setName(numeModif);//inlocuim numele de la indexul respectiv cu numele nou
+            listaPersoane[index].setName(numeModif);
             printConsole("Nume vechi: " + nume
                         + "\nNume nou: " + listaPersoane[index].getName());
+            String continuare = readStringConsole("Modifica si telefon? Y/N ").toUpperCase();
+            if (continuare.equals("Y")) {
+                listaPersoane[index].setPhoneNumber(readStringConsole("Telefon nou: "));
+            }
         }
     }
 
-    //STERGERE NUME
+    //stergere
     public static void stergere(String nume) {
-        int index = cautare(nume); //indexul numelui de sters
+        int index = cautare(nume);
         if (index == -1) {
             printConsole("\nNumele " + nume + " nu exista in PhoneBook!\n");
         }
         else {
             listaPersoane[index].setName(null);
-            printConsole("Nume " + nume + " a fost sters cu succes.\n");
+            listaPersoane[index].setPhoneNumber(null);
+            printConsole("Contactul " + nume + " a fost sters cu succes.\n");
         }
     }
 
