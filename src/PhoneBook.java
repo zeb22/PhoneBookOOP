@@ -55,8 +55,6 @@ public class PhoneBook extends Utility{
                 printConsole("Contact:" +
                         "\n\tNume: " + listaPersoane[i].getName() +
                         "\n\tTelefon: " + listaPersoane[i].getPhoneNumber() + "\n");
-//                printConsole("\tTelefon: " + listaPersoane[i].getPhoneNumber() + "\n");
-
             }
         }
     }
