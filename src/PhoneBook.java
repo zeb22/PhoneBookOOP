@@ -9,15 +9,15 @@ public class PhoneBook extends Utility{
 
         int opt;
         do {
-            printConsole("Meniul principal:");
-            printConsole("\n1-Afisarea" +
-                    "\n2-Adaugare" +
-                    "\n3-Adaugare fara duplicat" +
-                    "\n4-Cautare contact " +
-                    "\n5-Modificare contact" +
-                    "\n6-Stergere" +
-                    "\n0-EXIT");
-            printConsole("-----------------");
+            printConsole("\nMeniu principal: " +
+                        "\n1-Afisarea" +
+                        "\n2-Adaugare" +
+                        "\n3-Adaugare fara duplicat" +
+                        "\n4-Cautare contact " +
+                        "\n5-Modificare contact" +
+                        "\n6-Stergere" +
+                        "\n0-EXIT" +
+                        "\n-----------------");
 
             opt = readIntConsole("Alegeti optiunea dorita:\n");
 
@@ -52,9 +52,10 @@ public class PhoneBook extends Utility{
     public static void listare() {
         for (int i = 0; i < listaPersoane.length; i++) {
             if (listaPersoane[i] != null) {
-                printConsole("Contact: " + index + "\n" +
-                        "\tNume: " + listaPersoane[i].getName());
-                printConsole("\tTelefon: " + listaPersoane[i].getPhoneNumber() + "\n");
+                printConsole("Contact:" +
+                        "\n\tNume: " + listaPersoane[i].getName() +
+                        "\n\tTelefon: " + listaPersoane[i].getPhoneNumber() + "\n");
+//                printConsole("\tTelefon: " + listaPersoane[i].getPhoneNumber() + "\n");
 
             }
         }
@@ -155,8 +156,7 @@ public class PhoneBook extends Utility{
             printConsole("\nNumele " + nume + " nu exista in PhoneBook!\n");
         }
         else {
-            listaPersoane[index].setName(null);
-            listaPersoane[index].setPhoneNumber(null);
+            listaPersoane[index] = null;
             printConsole("Contactul " + nume + " a fost sters cu succes.\n");
         }
     }
