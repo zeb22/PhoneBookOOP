@@ -10,7 +10,7 @@ public class PhoneBook extends Utility{
         int opt;
         do {
             printConsole("\nMeniu principal: " +
-                        "\n1-Afisarea" +
+                        "\n1-Listare" +
                         "\n2-Adaugare" +
                         "\n3-Adaugare fara duplicat" +
                         "\n4-Cautare contact " +
@@ -48,13 +48,13 @@ public class PhoneBook extends Utility{
 
 
 
-    //afisare
+    //listare
     public static void listare() {
-        for (int i = 0; i < listaPersoane.length; i++) {
-            if (listaPersoane[i] != null) {
+        for (Person p : listaPersoane) {
+            if (p != null) {
                 printConsole("Contact:" +
-                        "\n\tNume: " + listaPersoane[i].getName() +
-                        "\n\tTelefon: " + listaPersoane[i].getPhoneNumber() + "\n");
+                        "\n\tNume: " + p.getName() +
+                        "\n\tTelefon: " + p.getPhoneNumber() + "\n");
             }
         }
     }
@@ -68,23 +68,22 @@ public class PhoneBook extends Utility{
 
     //creare fara duplicat
     public static void creareFaraDuplicat(String nume, String telefon) {
-        int i = cautare(nume);
-        if (i == -1) {
+
+        if (cautare(nume) == -1) {
             if (index < listaPersoane.length) {
                 creare(nume, telefon);
             } else {
-                for (int j = 0; j < listaPersoane.length; j++) {
-                    if (listaPersoane[j].getName() == null) {
+                for (Person p : listaPersoane) {
+                    if (p == null) {
                         creare(nume, telefon);
                         printConsole("Numele " + nume + " adaugat!\n"
-                                + "Cu telefon: " + telefon + "\n");
+                                    + "Cu telefon: " + telefon + "\n");
                         break;
                     } else {
                         printConsole("Ne pare rau, dar agenda este plina deja!");
                         break;
                     }
                 }
-
             }
         } else {
             printConsole("Numele introdus exista deja.\n");
@@ -132,16 +131,15 @@ public class PhoneBook extends Utility{
 
     //modificare
     public static void modificare(String nume) {
-        int index = cautare(nume);
-        if (index == -1) {
+
+        if (cautare(nume) == -1) {
             printConsole("Numele " + nume + " nu exista in angeda!");
         } else {
-            String numeModif = readStringConsole("Introduceti numele dorit: ");
-            listaPersoane[index].setName(numeModif);
+            listaPersoane[index].setName(readStringConsole("Introduceti numele dorit: "));
             printConsole("Nume vechi: " + nume
                         + "\nNume nou: " + listaPersoane[index].getName());
-            String continuare = readStringConsole("Modifica si telefon? Y/N ").toUpperCase();
-            if (continuare.equals("Y")) {
+
+            if (readStringConsole("Modifica si telefon? Y/N ").toUpperCase().equals("Y")) {
                 listaPersoane[index].setPhoneNumber(readStringConsole("Telefon nou: "));
             }
         }
@@ -149,8 +147,8 @@ public class PhoneBook extends Utility{
 
     //stergere
     public static void stergere(String nume) {
-        int index = cautare(nume);
-        if (index == -1) {
+
+        if (cautare(nume) == -1) {
             printConsole("\nNumele " + nume + " nu exista in PhoneBook!\n");
         }
         else {
