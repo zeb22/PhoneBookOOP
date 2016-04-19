@@ -131,11 +131,11 @@ public class PhoneBook extends Utility{
 
     //modificare
     public static void modificare(String nume) {
-
-        if (cautare(nume) == -1) {
+        int index = cautare(nume);
+        if (index == -1) {
             printConsole("Numele " + nume + " nu exista in angeda!");
         } else {
-            listaPersoane[index].setName(readStringConsole("Introduceti numele dorit: "));
+            listaPersoane[index].setName(readStringConsole("Modifica la: "));
             printConsole("Nume vechi: " + nume
                         + "\nNume nou: " + listaPersoane[index].getName());
 
@@ -147,8 +147,8 @@ public class PhoneBook extends Utility{
 
     //stergere
     public static void stergere(String nume) {
-
-        if (cautare(nume) == -1) {
+        int index = cautare(nume);
+        if (index == -1) {
             printConsole("\nNumele " + nume + " nu exista in PhoneBook!\n");
         }
         else {
